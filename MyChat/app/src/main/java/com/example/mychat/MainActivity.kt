@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.mychat.login.LoginActivity
 import com.example.mychat.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -18,7 +19,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = Firebase.auth
-        Log.d(TAG, "user: ${auth.currentUser?.email.toString()}")
+        val user = auth.currentUser
+        user?.let {
+            val name = it.displayName
+            val email = it.email
+            val photoUrl = it.photoUrl
+            val emailVerified = it.isEmailVerified
+            val uid = it.uid
+
+            Log.d(TAG, "user: $name, $email, $photoUrl, $emailVerified, $uid")
+        }
 
         binding.btnSignOut.setOnClickListener {
             signOut()

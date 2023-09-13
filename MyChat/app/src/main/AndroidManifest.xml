@@ -13,10 +13,13 @@
         android:theme="@style/Theme.MyChat"
         tools:targetApi="31">
         <activity
+            android:name=".signup.SignUpActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,12 +1,9 @@
-package com.example.mychat
+package com.example.mychat.login
 
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
+import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -43,6 +40,6 @@ class LoginActivityViewModel : ViewModel() {
     }
 
     private fun validate(): Boolean {
-        return !(email.value == null || password.value == null)
+        return !(email.value == null || !Patterns.EMAIL_ADDRESS.matcher(email.value!!).matches() || password.value == null)
     }
 }
