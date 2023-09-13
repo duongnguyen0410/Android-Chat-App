@@ -1,5 +1,6 @@
 package com.example.mychat.login
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,7 +29,19 @@ class LoginActivityViewModel : ViewModel() {
         if(validate()){
             auth.signInWithEmailAndPassword(email.value.toString(), password.value.toString())
                 .addOnCompleteListener { task ->
-                    _isUserLoggedIn.value = task.isSuccessful
+                    if (task.isSuccessful){
+                        if (auth.currentUser?.isEmailVerified == true){
+                            _isUserLoggedIn.value = true
+                        } else {
+                            auth.currentUser?.sendEmailVerification()
+                                ?.addOnCompleteListener {
+                                    _showToast.value = "Please verify you email!"
+                                }
+                        }
+                    } else {
+                        _showToast.value = "Sign in failed."
+                        Log.w(TAG, "logInWithEmail: Failed", task.exception)
+                    }
                 }
         } else {
             _showToast.value = "Empty username or password"
@@ -41,5 +54,9 @@ class LoginActivityViewModel : ViewModel() {
 
     private fun validate(): Boolean {
         return !(email.value == null || !Patterns.EMAIL_ADDRESS.matcher(email.value!!).matches() || password.value == null)
+    }
+
+    companion object {
+        private const val TAG = "LoginActivity"
     }
 }
