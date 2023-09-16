@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.firebase:firebase-database-ktx:20.2.2")
     val lifecycle_version = "2.6.2"
 
     implementation("androidx.core:core-ktx:1.9.0")
