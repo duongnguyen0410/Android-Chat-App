@@ -22,7 +22,6 @@ class LoginActivityViewModel : ViewModel() {
     private val auth = Firebase.auth
 
     init {
-        auth.signOut()
         checkUserLoginStatus()
     }
 
