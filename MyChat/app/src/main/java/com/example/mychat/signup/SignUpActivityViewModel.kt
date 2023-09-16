@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mychat.UserRepository
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
@@ -17,6 +18,7 @@ class SignUpActivityViewModel : ViewModel(){
 
     private var _isUpdateDone = false
     private val _isSignUpDone = MutableLiveData<Boolean>()
+
     val isSignUpDone: LiveData<Boolean>
         get() = _isSignUpDone
 
@@ -26,6 +28,8 @@ class SignUpActivityViewModel : ViewModel(){
 
     private val auth = Firebase.auth
     private val databaseReference = Firebase.database.reference
+
+    private val userRepo = UserRepository()
 
     init {
         _isSignUpDone.value = false
@@ -38,9 +42,7 @@ class SignUpActivityViewModel : ViewModel(){
                     if(task.isSuccessful){
                         val user = task.result?.user
                         if (user != null){
-                            updateUserInfo(user)
-                            Log.d(TAG, "createUserWithEmail: success")
-                            auth.signOut()
+                            pushUserInfoToDatabase(user)
                         }
 
                     } else {
@@ -57,7 +59,7 @@ class SignUpActivityViewModel : ViewModel(){
         return !(email.value == null || password.value == null || name.value == null)
     }
 
-    private fun updateUserInfo(user: FirebaseUser){
+    private fun pushUserInfoToDatabase(user: FirebaseUser){
         val profileUpdates = userProfileChangeRequest {
             displayName = name.value.toString()
         }
@@ -66,27 +68,10 @@ class SignUpActivityViewModel : ViewModel(){
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Log.d(TAG, "updateUserInfo: success")
-                    pushUserInfoToDatabase(user)
+                    val updatedUser = auth.currentUser
+                    userRepo.insertUser(updatedUser!!)
                 } else {
                     Log.w(TAG, "updateUserInfo: failed", task.exception)
-                }
-            }
-    }
-
-    private fun pushUserInfoToDatabase(user: FirebaseUser){
-        val userReference = databaseReference.child("users").child(user.uid)
-        val userInfo = HashMap<String, String>()
-        userInfo["uid"] = user.uid
-        userInfo["name"] = name.value.toString()
-        userInfo["email"] = email.value.toString()
-        userInfo["profileImage"] = "default"
-        userReference.setValue(userInfo)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful){
-                    _isSignUpDone.value = true
-                } else {
-                    _showToast.value = "Sign up failed."
-                    Log.w(TAG, "pushUserInfoToDatabase: failed", task.exception)
                 }
             }
     }
