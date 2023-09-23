@@ -16,7 +16,6 @@ class SignUpActivityViewModel : ViewModel(){
     val password = MutableLiveData<String>()
     val name = MutableLiveData<String>()
 
-    private var _isUpdateDone = false
     private val _isSignUpDone = MutableLiveData<Boolean>()
 
     val isSignUpDone: LiveData<Boolean>
@@ -42,7 +41,14 @@ class SignUpActivityViewModel : ViewModel(){
                     if(task.isSuccessful){
                         val user = task.result?.user
                         if (user != null){
-                            pushUserInfoToDatabase(user)
+                            pushUserInfoToDatabase(user) { result ->
+                                if (result){
+                                    auth.signOut()
+                                    _isSignUpDone.value = true
+                                } else {
+                                    _showToast.value = "Sign up failed."
+                                }
+                            }
                         }
 
                     } else {
@@ -59,7 +65,7 @@ class SignUpActivityViewModel : ViewModel(){
         return !(email.value == null || password.value == null || name.value == null)
     }
 
-    private fun pushUserInfoToDatabase(user: FirebaseUser){
+    private fun pushUserInfoToDatabase(user: FirebaseUser, callback: (Boolean) -> Unit){
         val profileUpdates = userProfileChangeRequest {
             displayName = name.value.toString()
         }
@@ -69,7 +75,14 @@ class SignUpActivityViewModel : ViewModel(){
                 if(task.isSuccessful){
                     Log.d(TAG, "updateUserInfo: success")
                     val updatedUser = auth.currentUser
-                    userRepo.insertUser(updatedUser!!)
+                    userRepo.insertUser(updatedUser!!) { result ->
+                        if (result){
+                            callback(true)
+                        } else {
+                            _showToast.value = "Sign up failed."
+                            callback(false)
+                        }
+                    }
                 } else {
                     Log.w(TAG, "updateUserInfo: failed", task.exception)
                 }
