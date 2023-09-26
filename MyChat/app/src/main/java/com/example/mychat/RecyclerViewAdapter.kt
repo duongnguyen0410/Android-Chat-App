@@ -1,11 +1,8 @@
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mychat.ChatFragmentViewModel
 import com.example.mychat.User.User
-import com.example.mychat.databinding.FragmentChatBinding
 import com.example.mychat.databinding.ItemUserBinding
 
 class RecyclerViewAdapter(private var userList: List<User>) : RecyclerView.Adapter<RecyclerViewAdapter.UserViewHolder>() {

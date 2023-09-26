@@ -12,18 +12,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.mychat.databinding.FragmentChatBinding
+import com.example.mychat.databinding.FragmentUsersBinding
 
-class ChatFragment : Fragment() {
-    private lateinit var binding: FragmentChatBinding
-    private lateinit var viewModel: ChatFragmentViewModel
+class UsersFragment : Fragment() {
+    private lateinit var binding: FragmentUsersBinding
+    private lateinit var viewModel: UsersFragmentViewModel
     private lateinit var userAdapter: RecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_chat, container, false)
-        viewModel = ViewModelProvider(this)[ChatFragmentViewModel::class.java]
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_users, container, false)
+        viewModel = ViewModelProvider(this)[UsersFragmentViewModel::class.java]
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
