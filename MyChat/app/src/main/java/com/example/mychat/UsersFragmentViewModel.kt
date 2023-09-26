@@ -1,5 +1,6 @@
 package com.example.mychat
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -33,5 +34,17 @@ class UsersFragmentViewModel : ViewModel() {
         userRepo.retrieveListUsers { list ->
             _listUser.value = list
         }
+    }
+
+    fun handleUserClick(user: User){
+        if(user.name == "An Vu"){
+            Log.i(TAG, "handleUserClick: GAYYYYYY")
+        } else {
+            Log.i(TAG, "handleUserClick: ${user.name}")
+        }
+    }
+
+    companion object {
+        private const val TAG = "UsersFragmentViewModel"
     }
 }
