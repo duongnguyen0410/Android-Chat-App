@@ -1,11 +1,16 @@
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mychat.ChatFragment
+import com.example.mychat.MainActivity
 import com.example.mychat.User.User
 import com.example.mychat.databinding.ItemUserBinding
 
-class RecyclerViewAdapter(private var userList: List<User>) : RecyclerView.Adapter<RecyclerViewAdapter.UserViewHolder>() {
+class RecyclerViewAdapter(
+    private var userList: List<User>
+) : RecyclerView.Adapter<RecyclerViewAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
