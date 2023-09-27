@@ -7,13 +7,19 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.mychat.UsersFragmentViewModel"/>
+            type="com.example.mychat.viewmodel.UsersFragmentViewModel"/>
     </data>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UsersFragment"
+    tools:context=".fragment.UsersFragment"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{viewModel.user.name}"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChatUsers"
