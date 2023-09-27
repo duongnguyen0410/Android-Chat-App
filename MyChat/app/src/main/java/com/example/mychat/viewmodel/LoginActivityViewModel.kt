@@ -1,4 +1,4 @@
-package com.example.mychat.login
+package com.example.mychat.viewmodel
 
 import android.util.Log
 import android.util.Patterns
@@ -31,14 +31,7 @@ class LoginActivityViewModel : ViewModel() {
             auth.signInWithEmailAndPassword(email.value.toString(), password.value.toString())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful){
-                        if (auth.currentUser?.isEmailVerified == true){
-                            _isUserLoggedIn.value = true
-                        } else {
-                            auth.currentUser?.sendEmailVerification()
-                                ?.addOnCompleteListener {
-                                    _showToast.value = "Please verify you email!"
-                                }
-                        }
+                        _isUserLoggedIn.value = true
                     } else {
                         _showToast.value = "Sign in failed."
                         Log.w(TAG, "logInWithEmail: Failed", task.exception)
