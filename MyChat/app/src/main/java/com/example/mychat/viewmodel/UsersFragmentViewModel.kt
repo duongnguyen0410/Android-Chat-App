@@ -13,9 +13,7 @@ class UsersFragmentViewModel(private val repository: UserRepository) : ViewModel
     private val auth = Firebase.auth
     private val currentUser = auth.currentUser
 
-    private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+    val user = MutableLiveData<User>()
 
     private val _listUser = MutableLiveData<ArrayList<User>>()
     val listUser : LiveData<ArrayList<User>>
@@ -26,8 +24,8 @@ class UsersFragmentViewModel(private val repository: UserRepository) : ViewModel
         get() = _selectedUser
 
     fun retrieveUser(){
-        repository.retrieveUser(currentUser?.uid.toString()){ user ->
-            _user.value = user
+        repository.retrieveUser(currentUser?.uid.toString()){ result ->
+            user.value = result
         }
     }
 
