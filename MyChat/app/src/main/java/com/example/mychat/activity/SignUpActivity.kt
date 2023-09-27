@@ -1,4 +1,4 @@
-package com.example.mychat.signup
+package com.example.mychat.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,11 +7,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.example.mychat.R
-import com.example.mychat.databinding.ActivityLoginBinding
 import com.example.mychat.databinding.ActivitySignUpBinding
-import com.example.mychat.login.LoginActivity
+import com.example.mychat.viewmodel.SignUpActivityViewModel
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding

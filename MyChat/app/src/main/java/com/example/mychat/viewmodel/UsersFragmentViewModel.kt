@@ -1,47 +1,45 @@
-package com.example.mychat
+package com.example.mychat.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mychat.User.User
-import com.google.firebase.auth.FirebaseAuth
+import com.example.mychat.model.User
+import com.example.mychat.repository.UserRepository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class UsersFragmentViewModel : ViewModel() {
+class UsersFragmentViewModel(private val repository: UserRepository) : ViewModel() {
+    private val auth = Firebase.auth
+    private val currentUser = auth.currentUser
+
     private val _user = MutableLiveData<User>()
     val user : LiveData<User>
         get() = _user
 
     private val _listUser = MutableLiveData<ArrayList<User>>()
-
     val listUser : LiveData<ArrayList<User>>
         get() = _listUser
 
-    private val userRepo = UserRepository()
-
-    private val auth: FirebaseAuth = Firebase.auth
-    private val currentUser = auth.currentUser
+    private val _selectedUser = MutableLiveData<User>()
+    val selectedUser : LiveData<User>
+        get() = _selectedUser
 
     fun retrieveUser(){
-        userRepo.retrieveUser(currentUser?.uid.toString()){ user ->
+        repository.retrieveUser(currentUser?.uid.toString()){ user ->
             _user.value = user
         }
     }
 
     fun retrieveListUser(){
-        userRepo.retrieveListUsers { list ->
+        repository.retrieveListUsers { list ->
             _listUser.value = list
         }
     }
 
     fun handleUserClick(user: User){
-        if(user.name == "An Vu"){
-            Log.i(TAG, "handleUserClick: GAYYYYYY")
-        } else {
-            Log.i(TAG, "handleUserClick: ${user.name}")
-        }
+        Log.i(TAG, "handleUserClick: ${user.name}")
+        _selectedUser.value = user
     }
 
     companion object {

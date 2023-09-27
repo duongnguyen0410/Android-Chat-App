@@ -1,15 +1,9 @@
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.mychat.ChatFragment
-import com.example.mychat.MainActivity
 import com.example.mychat.R
-import com.example.mychat.User.User
+import com.example.mychat.model.User
 import com.example.mychat.databinding.ItemUserBinding
 
 class RecyclerViewAdapter(private val clickListener:(User)->Unit) : RecyclerView.Adapter<MyViewHolder>()
