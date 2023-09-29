@@ -22,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.btnSignUp.setOnClickListener {
+        binding.tvSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
 
